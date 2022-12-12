@@ -1,54 +1,56 @@
-import {createLogger, createStore} from "vuex";
+import {createStore} from "vuex";
 
 export const store = createStore({
     state() {
-
-        const tasks = [
-            {
-                id: Date.now(),
-                title: "Задача 1",
-                date: new Date().toLocaleDateString(),
-                description: "Описание",
-                status: "Active"
-            },
-            {
-                id: Date.now()+1,
-                title: "Задача 2",
-                date: new Date().toLocaleDateString(),
-                description: "Описание",
-                status: "Active"
-            },
-               ]
-
-
         return {
-            tasks,
+            now: new Date().toLocaleDateString(),
+            tasks: [
+                {
+                    id: Date.now(),
+                    title: "Задача 1",
+                    date: new Date().toLocaleDateString(),
+                    description: "Описание",
+                    status: "active"
+                },
+                {
+                    id: Date.now() + 1,
+                    title: "Задача 2",
+                    date: new Date().toLocaleDateString(),
+                    description: "Описание",
+                    status: "active"
+                },
+            ],
+
             status: 'active',
             name: '',
             date: '',
             title: '',
-            description: ''
+            description: '',
+
         }
     },
     getters: {
-        getTasks(state) {
+        tasks(state) {
             return state.tasks
+        },
+        activeCounter(state) {
+            return state.tasks.filter(t => t.status === 'active').length
         }
     },
     mutations: {
         add(state, payload) {
             state.tasks.push({
-                id: Date.toLocaleString(),
+                id: Date.now(),
                 title: payload.title.value,
-                date: payload.date.value.replace(/(\d*)-(\d*)-(\d*)/,'$3.$2.$1'),
-                description: payload.description.value
-            }),
+                date: payload.date.value.replace(/(\d*)-(\d*)-(\d*)/, '$3.$2.$1'),
+                description: payload.description.value,
+                status: Date.parse(payload.date.value) > Date.now() ? 'active' : 'cancelled'
+            })
+        },
+        setStatus(state, payload) {
+            const el = state.tasks.find(e => e.id == payload.id)
+            el.status = payload.val
 
-                localStorage.setItem('tasks', JSON.stringify(this.state.tasks) )
-            console.log(payload.date.value)
-        }
-    },
-
-
-
+        },
+    }
 })

@@ -6,10 +6,9 @@ import Tasks from "./views/Tasks";
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-        {path: '/new', component: New },
-        {path: '/tasks', component: Tasks, alias: '/'},
-        {path: '/task/:taskId', component: Task }
-
+        {path: '/new', component: New},
+        {path: '/', component: Tasks, alias: '/'},
+        {path: '/task/:taskId', component: Task, props: true}
     ],
     linkActiveClass: 'active',
     linkExactActiveClass: 'active'

@@ -4,6 +4,7 @@
 
 <script>
 import {watch, ref} from 'vue'
+
 export default {
   props: {
     type: {
